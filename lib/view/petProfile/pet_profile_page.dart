@@ -14,9 +14,9 @@ class PageProfilePet extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         
-        backgroundColor: Color.fromARGB(255, 247, 223, 231),
+        backgroundColor: const Color.fromARGB(255, 0, 255, 127),
         ),
-      backgroundColor: Color.fromARGB(255, 247, 223, 231),
+      backgroundColor: const Color.fromARGB(255, 0, 255, 127),
       body: SingleChildScrollView(
         child: Container(
           child: Padding(
@@ -67,7 +67,7 @@ class PageProfilePet extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
                                         color: const Color.fromARGB(
-                                            255, 225, 150, 175),
+                                            255, 50, 205, 50),
                                       ),
                                       width: 75,
                                       height: 75,
@@ -91,7 +91,7 @@ class PageProfilePet extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
                                         color: const Color.fromARGB(
-                                            255, 220, 170, 228),
+                                            255, 0, 255, 127),
                                       ),
                                       width: 75,
                                       height: 75,
@@ -115,7 +115,7 @@ class PageProfilePet extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
                                         color: const Color.fromARGB(
-                                            255, 205, 232, 255),
+                                            255, 50, 205, 50),
                                       ),
                                       width: 75,
                                       height: 75,
@@ -139,7 +139,7 @@ class PageProfilePet extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
                                         color:
-                                            Color.fromARGB(255, 205, 255, 225),
+                                            Color.fromARGB(255, 0, 255, 127),
                                       ),
                                       width: 75,
                                       height: 75,

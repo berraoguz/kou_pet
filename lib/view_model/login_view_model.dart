@@ -9,6 +9,7 @@ import 'package:koupet/view_model/register_view_model.dart';
 class LoginViewModel with ChangeNotifier{
 
   FirebaseAuth _auth = FirebaseAuth.instance;
+
   void login(BuildContext context, String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(
@@ -16,16 +17,16 @@ class LoginViewModel with ChangeNotifier{
         password: password,
       );
       print(_auth.currentUser != null);
-      _showSnackbar(context, "Login successful");
+      _showSnackbar(context, "Giriş başarılı");
       _openHomePage(context);
     } on FirebaseAuthException catch (e) {
-      String errorMessage = "Login failed. Error: ";
+      String errorMessage = "Giriş başarısız. Hata: ";
       if (e.code == 'user-not-found') {
-        errorMessage += "User not found.";
+        errorMessage += "Kullanıcı bulunamadı.";
       } else if (e.code == 'wrong-password') {
-        errorMessage += "Invalid password.";
+        errorMessage += "Geçersiz şifre.";
       } else {
-        errorMessage += e.message ?? "Unknown error";
+        errorMessage += e.message ?? "Bilinmeyen hata";
       }
 
       _showSnackbar(context, errorMessage);
@@ -34,8 +35,8 @@ class LoginViewModel with ChangeNotifier{
   }
 
   void forgotPassword(BuildContext context) async {
-
-    _auth.sendPasswordResetEmail(email: "hilalbyk396@gmail.com");
+    // Şifremi unuttum işlevi
+    _auth.sendPasswordResetEmail(email: "berraoguz@outlook.com");
   }
 
 
@@ -50,6 +51,7 @@ class LoginViewModel with ChangeNotifier{
   }
 
   void _openHomePage(BuildContext context) {
+    // Anasayfaya yönlendirme
     MaterialPageRoute pageRoute = MaterialPageRoute(
       builder: (context) => ChangeNotifierProvider(
         create: (context) => LayoutViewModel(),
@@ -59,7 +61,8 @@ class LoginViewModel with ChangeNotifier{
     Navigator.pushReplacement(context, pageRoute);
   }
 
-   void _showSnackbar(BuildContext context, String message) {
+  void _showSnackbar(BuildContext context, String message) {
+    // Snackbar gösterme işlevi
     SnackBar snackBar = SnackBar(content: Text(message));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
     print(message);

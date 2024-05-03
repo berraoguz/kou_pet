@@ -68,7 +68,7 @@ class PageHome extends StatelessWidget {
         CustomCard(
           icon: "👨‍🎨",
           title: ConstantsAdress.own,
-          subtitle: '45 creatives',
+          subtitle: '',
           backgroundColor: ConstantsColor.lightGreenColor,
           onPressed: () {
             viewModel.openOwnPage(context);
@@ -77,7 +77,7 @@ class PageHome extends StatelessWidget {
         CustomCard(
           icon: "👨‍🎨",
           title: 'Kayıp',
-          subtitle: '45 creatives',
+          subtitle: '',
           backgroundColor: ConstantsColor.lightGreennColor,
           onPressed: () {
             viewModel.openLostPage(context);
@@ -87,7 +87,7 @@ class PageHome extends StatelessWidget {
         CustomCard(
           icon: "🙅‍♂️",
           title: 'Bağış & Shop',
-          subtitle: '24 chec',
+          subtitle: '',
           backgroundColor: ConstantsColor.lightGreennColor,
           onPressed: () {
             viewModel.openDonatPage(context);
@@ -96,7 +96,7 @@ class PageHome extends StatelessWidget {
         CustomCard(
           icon: "🙅‍♂️",
           title: 'Eğitim Videoları',
-          subtitle: '21 big rains',
+          subtitle: '',
           backgroundColor: ConstantsColor.lightGreennnnColor,
           onPressed: () {
             viewModel.openEducationVideoPage(context);

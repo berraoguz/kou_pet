@@ -44,7 +44,7 @@ SizedBox(height: 10),
                 } else if (!snapshot.hasData || snapshot.data == null) {
                   return Text('User not found');
                 } else {
-            
+
                   //String userName = FirebaseAuth.instance.currentUser?.displayName ?? 'N/A';
                   //String userName = snapshot.data!.displayName ?? "N/A";
                   String eMail = snapshot.data!.email ?? 'N/A';
@@ -57,9 +57,9 @@ SizedBox(height: 10),
                 }
               },
             ),
-      
 
-           
+
+
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {},
@@ -76,7 +76,7 @@ SizedBox(height: 10),
           ],
         ),
       ),
-      backgroundColor: const Color.fromARGB(255, 247, 205, 219),
+      backgroundColor: const Color.fromARGB(255, 0, 255, 127),
       bottom: TabBar(
         tabs: const <Widget>[
           Tab(child: Text('İlanlarım')),
@@ -124,7 +124,7 @@ SizedBox(height: 10),
 //         child: Column(
 //           children: [
 //             Text(viewModel.userName ?? ""),
-//            // Text('Oya Özcan'),
+//            // Text('Berra Oğuz'),
 //             CircleAvatar(
 //               backgroundColor: Colors.black,
 //               radius: 50,

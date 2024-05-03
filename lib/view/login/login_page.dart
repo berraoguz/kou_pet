@@ -203,12 +203,11 @@ class PageLogin extends StatelessWidget {
   }
 
   Widget buildHeaderLogo() {
-    return FadeInDown(
-      child: Lottie.asset(
-        ConstantsAdress.donate_animation,
-        height: 180,
-        fit: BoxFit.cover,
-      ),
-    );
-  }
+  return Image.asset(
+    'assets/logo.png',
+    height: 180,
+    fit: BoxFit.cover,
+  );
+}
+
 }

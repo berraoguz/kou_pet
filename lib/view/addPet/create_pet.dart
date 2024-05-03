@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:koupet/theme/app_color.dart';
-import 'package:koupet/view/component/custom_text_field.dart';
 import 'package:koupet/view_model/create_pet_view_model.dart';
+import 'package:koupet/view/component/custom_text_field.dart';
 
-const List<String> cityList = <String>['İstanbul', 'İzmir', 'Ankara', 'Mersin'];
-const List<String> typeList = <String>['Kedi', 'Köpek'];
+const List<String> typeList = ['Kedi', 'Köpek'];
 
 class AddPetPage extends StatefulWidget {
   AddPetPage({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class _AddPetPageState extends State<AddPetPage> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _vaccineController = TextEditingController();
   TextEditingController _dateController = TextEditingController();
-  String dropdownCityValue = cityList.first;
+  String dropdownCityValue = "";
   String dropdownTypeValue = typeList.first;
   bool isMale = false;
   bool isFemale = false;
@@ -28,6 +28,28 @@ class _AddPetPageState extends State<AddPetPage> {
   int age = 0;
   int weight = 0;
   DateTime? _selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCities();
+  }
+
+  Future<void> _fetchCities() async {
+  final db = FirebaseFirestore.instance;
+  final citiesCollection = await db.collection('cities').get();
+
+  if (citiesCollection.docs.isNotEmpty) {
+    List<String> cityNames = [];
+    for (var doc in citiesCollection.docs) {
+      cityNames.add(doc.id);
+    }
+    setState(() {
+      dropdownCityValue = cityNames[0]; // Set default value to the first city name
+    });
+  }
+}
+
 
   Future<void> _selectDate(BuildContext context) async {
     showModalBottomSheet(
@@ -71,39 +93,40 @@ class _AddPetPageState extends State<AddPetPage> {
                   _buildImage(),
                   SizedBox(height: 16),
                   Card(
-                    
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-
-                          CompCustomTextField(obscureText: false,
-                          controller: _nameController,hintText: "İsim",
+                          CompCustomTextField(
+                            obscureText: false,
+                            controller: _nameController,
+                            hintText: "İsim",
                           ),
                           SizedBox(height: 16),
-                          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               _buildTypeDropdown(),
-                               SizedBox(width: 50,),
+                              SizedBox(width: 50),
                               _buildCityDropdown(),
                             ],
                           ),
                           SizedBox(height: 16),
                           _buildGenderCheckbox(),
-                           SizedBox(height: 16),
+                          SizedBox(height: 16),
                           _buildAge(),
                           SizedBox(height: 16),
                           _buildWeight(),
                           SizedBox(height: 16),
-                            CompCustomTextField(obscureText: false,
-                          controller: _vaccineController,hintText: "Aşı",
+                          CompCustomTextField(
+                            obscureText: false,
+                            controller: _vaccineController,
+                            hintText: "Aşı",
                           ),
                           SizedBox(height: 16),
-                          
-                         
                           _buildImageReasonCheckBox(),
                           SizedBox(height: 16),
-                          _buildDateTextField()
+                          _buildDateTextField(),
                         ],
                       ),
                     ),
@@ -115,14 +138,6 @@ class _AddPetPageState extends State<AddPetPage> {
           ),
         ),
       ),
-    );
-  }
-
- 
-  Widget _buildVaccineTextField() {
-    return TextField(
-      controller: _vaccineController,
-      decoration: InputDecoration(labelText: 'Aşı'),
     );
   }
 
@@ -176,38 +191,53 @@ class _AddPetPageState extends State<AddPetPage> {
   }
 
   Widget _buildCityDropdown() {
-    return DropdownButton<String>(
-      value: dropdownCityValue,
-      icon: const Icon(Icons.arrow_drop_down),
-      elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),
-      onChanged: (String? value) {
-        setState(() {
-          dropdownCityValue = value!;
-        });
-      },
-      items: cityList.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('cities').snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error fetching cities');
+        }
+
+        if (!snapshot.hasData) {
+          return Text('Loading...');
+        }
+
+        final cities = snapshot.data!.docs.map((doc) => doc.id).toList();
+
+        return DropdownButton<String>(
+          value: dropdownCityValue,
+          icon: Icon(Icons.arrow_drop_down),
+          elevation: 16,
+          style: TextStyle(color: Color(0xff008B45)),
+          underline: Container(
+            height: 2,
+            color: Color(0xff008B45),
+          ),
+          onChanged: (String? value) {
+            setState(() {
+              dropdownCityValue = value!;
+            });
+          },
+          items: cities.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
         );
-      }).toList(),
+      },
     );
   }
 
   Widget _buildTypeDropdown() {
     return DropdownButton<String>(
       value: dropdownTypeValue,
-      icon: const Icon(Icons.arrow_drop_down),
+      icon: Icon(Icons.arrow_drop_down),
       elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
+      style: TextStyle(color: Color(0xff008B45)),
       underline: Container(
         height: 2,
-        color: Colors.deepPurpleAccent,
+        color: Color(0xff008B45),
       ),
       onChanged: (String? value) {
         setState(() {
@@ -229,7 +259,7 @@ class _AddPetPageState extends State<AddPetPage> {
       onTap: () {
         viewModel.pickImage(_nameController.text.trim());
       },
-      child: CircleAvatar(backgroundColor: Colors.blue, child: Icon(Icons.add)),
+      child: CircleAvatar(backgroundColor: Color(0xff008B45), child: Icon(Icons.add)),
     );
   }
 
@@ -348,7 +378,7 @@ class _AddPetPageState extends State<AddPetPage> {
     );
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.purple,
+        backgroundColor: Color(0xff008B45),
       ),
       onPressed: () {
         viewModel.addPet(

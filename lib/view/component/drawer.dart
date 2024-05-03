@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:koupet/view/chatRepo/dm_page.dart';
@@ -7,6 +8,7 @@ import 'package:koupet/view/login/login_page.dart';
 import 'package:koupet/view/petShop/petshop_page.dart';
 import 'package:koupet/view/video/video_page.dart';
 import 'package:koupet/view_model/adoption_page_view_model.dart';
+import 'package:koupet/view_model/register_view_model.dart';
 
 class CompDrawer extends StatefulWidget {
   const CompDrawer({super.key, required});
@@ -14,6 +16,9 @@ class CompDrawer extends StatefulWidget {
   @override
   State<CompDrawer> createState() => _ComtDrawerState();
 }
+
+//final FirebaseAuth _auth = FirebaseAuth.instance;
+final RegisterViewModel _registerViewModel = RegisterViewModel();
 
 class _ComtDrawerState extends State<CompDrawer> {
   int _selectedIndex = 0;
@@ -146,7 +151,7 @@ class _ComtDrawerState extends State<CompDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PageShopping(), 
+                  builder: (context) => PageShopping(),
                 ),
               );
             },
@@ -161,7 +166,7 @@ class _ComtDrawerState extends State<CompDrawer> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => DonationPage(), 
+                builder: (context) => DonationPage(),
               ),
             );
           },
@@ -183,7 +188,7 @@ class _ComtDrawerState extends State<CompDrawer> {
         ),
         ListTile(
           leading: const Icon(Icons.subtitles),
-          title: const Text('Hakkımızda '),
+          title: const Text('Mesajlar'),
           selected: _selectedIndex == 5,
           onTap: () {
             _onItemTapped(5);
@@ -197,19 +202,29 @@ class _ComtDrawerState extends State<CompDrawer> {
         ),
         ListTile(
           leading: const Icon(Icons.input),
-          title: const Text('Çıkış '),
+          title: const Text('Çıkış'),
           selected: _selectedIndex == 6,
-          onTap: () {
+          onTap: () async {
             _onItemTapped(6);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PageLogin(), 
-              ),
-            );
+            // Çıkış işlemi
+            try {
+              await _registerViewModel.signOut();
+              // Giriş sayfasına yönlendirme
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PageLogin(),
+                ),
+              );
+            } catch (e) {
+              // Hata işleme
+              print('Çıkış işlemi sırasında hata oluştu: $e');
+            }
           },
         ),
       ],
     ));
   }
 }
+
+
