@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "softpati" "\0"
+            VALUE "FileDescription", "koupet" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "softpati" "\0"
+            VALUE "InternalName", "koupet" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "softpati.exe" "\0"
-            VALUE "ProductName", "softpati" "\0"
+            VALUE "OriginalFilename", "koupet.exe" "\0"
+            VALUE "ProductName", "koupet" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

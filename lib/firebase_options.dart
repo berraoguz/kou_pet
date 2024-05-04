@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '862467341877',
     projectId: 'koupet-6c795',
     storageBucket: 'koupet-6c795.appspot.com',
-    iosBundleId: 'com.example.softpati',
+    iosBundleId: 'com.example.koupet',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -73,7 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '862467341877',
     projectId: 'koupet-6c795',
     storageBucket: 'koupet-6c795.appspot.com',
-    iosBundleId: 'com.example.softpati',
+    iosBundleId: 'com.example.koupet',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
