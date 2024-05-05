@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:koupet/theme/app_color.dart';
-
 import 'package:koupet/view/adoption/adoption_page.dart';
 import 'package:koupet/view/chatRepo/dm_page.dart';
 import 'package:koupet/view/donat/donat_page.dart';
@@ -11,15 +10,22 @@ import 'package:koupet/view/petShop/petshop_page.dart';
 import 'package:koupet/view/video/video_page.dart';
 import 'package:koupet/view_model/adoption_page_view_model.dart';
 import 'package:koupet/view_model/register_view_model.dart';
+import '../../services/auth_service.dart';
+import '../../view_model/login_view_model.dart';
 
 class CompDrawer extends StatefulWidget {
   const CompDrawer({Key? key}) : super(key: key);
+  void logout() {
+    final auth = AuthService();
+    auth.signOut();
+  }
 
   @override
   State<CompDrawer> createState() => _CompDrawerState();
 }
 
-final RegisterViewModel _registerViewModel = RegisterViewModel();
+
+//final RegisterViewModel _registerViewModel = RegisterViewModel();
 
 class _CompDrawerState extends State<CompDrawer> {
   int _selectedIndex = 0;
@@ -188,28 +194,33 @@ class _CompDrawerState extends State<CompDrawer> {
               },
             ),
             ListTile(
-          leading: const Icon(Icons.input),
-          title: const Text('Çıkış'),
-          selected: _selectedIndex == 6,
-          onTap: () async {
-            _onItemTapped(6);
-            // Çıkış işlemi
-            try {
-              await _registerViewModel.signOut();
-              // Giriş sayfasına yönlendirme
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PageLogin(),
-                ),
-              );
-            } catch (e) {
-              // Hata işleme
-              print('Çıkış işlemi sırasında hata oluştu: $e');
-            }
-          },
-        ),
-      ],
+              leading: const Icon(Icons.input),
+              title: const Text('Çıkış'),
+              selected: _selectedIndex == 6,
+              onTap: () async {
+                _onItemTapped(6);
+                // Çıkış işlemi
+                try {
+                  final auth = AuthService();
+                  await auth.signOut();
+                  // Giriş sayfasına yönlendirme
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChangeNotifierProvider(
+                        create: (context) => LoginViewModel(),
+                        child: PageLogin(),
+                      ),
+                    ),
+                  );
+                } catch (e) {
+                  // Hata işleme
+                  print('Çıkış işlemi sırasında hata oluştu: $e');
+                }
+              },
+            ),
+
+          ],
     ));
   }
 }

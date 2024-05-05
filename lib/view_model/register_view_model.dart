@@ -98,15 +98,8 @@ class RegisterViewModel with ChangeNotifier {
       rethrow;
     }
   }
-
   Future<void> signOut() async {
-    try {
-      await _auth.signOut();
-    } catch (e, st) {
-      print(e);
-      print(st);
-      rethrow;
-    }
+    return await _auth.signOut();
   }
 
   void _openHomePage(BuildContext context) {
