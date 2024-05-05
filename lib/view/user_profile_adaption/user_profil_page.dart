@@ -9,7 +9,7 @@ import 'package:koupet/view_model/profile_page_view_model.dart';
 import 'package:koupet/view_model/register_view_model.dart';
 
 class PageProfileUser extends StatelessWidget {
-  const PageProfileUser({super.key});
+  const PageProfileUser({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,67 +23,87 @@ class PageProfileUser extends StatelessWidget {
               length: 2,
               child: Scaffold(
                 appBar: AppBar(
-      toolbarHeight: 300,
-      title: Padding(
-        padding: const EdgeInsets.only(top: 35),
-        child: Column(
-          children: [
-
- CircleAvatar(
-              backgroundColor: Colors.black,
-              radius: 50,
-            ),
-SizedBox(height: 10),
-            FutureBuilder<User?>(
-              future: viewmodel.getCurrentUser(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else if (!snapshot.hasData || snapshot.data == null) {
-                  return Text('User not found');
-                } else {
-
-                  //String userName = FirebaseAuth.instance.currentUser?.displayName ?? 'N/A';
-                  //String userName = snapshot.data!.displayName ?? "N/A";
-                  String eMail = snapshot.data!.email ?? 'N/A';
-                  return Column(
-                    children: [
-                      //Text('Soft, $userName'),
-                      Text('$eMail'),
+                  toolbarHeight: 300,
+                  title: Padding(
+                    padding: const EdgeInsets.only(top: 35),
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          radius: 60,
+                          child: FutureBuilder<User?>(
+                            future: viewmodel.getCurrentUser(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
+                              } else if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else if (!snapshot.hasData ||
+                                  snapshot.data == null) {
+                                return Text('User not found');
+                              } else {
+                                return ClipOval(
+                                  child: Image.network(
+                                    snapshot.data!.photoURL ??
+                                        'https://images.squarespace-cdn.com/content/v1/592577372e69cfb16c774206/1573029252375-C3MJ8SIDXA38H7GYVUEP/ico_pro-01.png',
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        FutureBuilder<User?>(
+                          future: viewmodel.getCurrentUser(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else if (!snapshot.hasData ||
+                                snapshot.data == null) {
+                              return Text('User not found');
+                            } else {
+                              String eMail = snapshot.data!.email ?? 'N/A';
+                              return Column(
+                                children: [
+                                  Text('$eMail'),
+                                ],
+                              );
+                            }
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            fixedSize: Size(300, 50),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.message),
+                              SizedBox(width: 7),
+                              Text('Mesaj at'),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  backgroundColor: const Color.fromARGB(255, 0, 255, 127),
+                  bottom: TabBar(
+                    tabs: const <Widget>[
+                      Tab(child: Text('İlanlarım')),
+                      Tab(child: Text('Patilerim')),
                     ],
-                  );
-                }
-              },
-            ),
-
-
-
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(fixedSize: Size(300, 50)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.message),
-                  SizedBox(width: 7),
-                  Text('Mesaj at'),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-      backgroundColor: const Color.fromARGB(255, 0, 255, 127),
-      bottom: TabBar(
-        tabs: const <Widget>[
-          Tab(child: Text('İlanlarım')),
-          Tab(child: Text('Patilerim')),
-        ],
-      ),
-    ),
+                  ),
+                ),
                 body: TabBarView(
                   children: [
                     ChangeNotifierProvider(
@@ -106,6 +126,7 @@ SizedBox(height: 10),
     );
   }
 }
+
 
 
 
